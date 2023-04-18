@@ -4,20 +4,20 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # import image
-image = cv2.imread("images/aksara bali e2.jpeg")
+image = cv2.imread("images/aksara bali g1.jpeg")
 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 # create a binary thresholded image
-_, binary = cv2.threshold(gray, 155, 255, cv2.THRESH_BINARY_INV)
+_, binary = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY_INV)
 
 # erosion if needed, adjust kernels as required
-#kernel = np.ones((3,3),np.uint8)
-#erosion = cv2.erode(binary, kernel, iterations = 1)
+kernel = np.ones((5,5),np.uint8)
+erosion = cv2.erode(binary, kernel, iterations = 1)
 
 # dilation
-kernel0 = np.ones((101,59),np.uint8)
-dil = cv2.dilate(binary, kernel0, iterations = 1)
+kernel0 = np.ones((53,57),np.uint8)
+dil = cv2.dilate(erosion, kernel0, iterations = 1)
 
 # additional img processing if needed
 #kernel2 = np.ones((33,29),np.uint8)
@@ -34,11 +34,11 @@ for c in contours:
     x,y,w,h = cv2.boundingRect(c)
     #if h >= 0.1 * nh:
     # preview image before cropping, bounding box will be shown on detected objects
-    #cv2.rectangle(image, (x,y), (x+w, y+h), (0,0,0), 10, cv2.LINE_AA)
+    cv2.rectangle(image, (x,y), (x+w, y+h), (0,0,0), 10, cv2.LINE_AA)
 
     # crop objects
     # when cropping, make sure to comment line 37 so cropped images won't show bounding boxes
-    cv2.imwrite('images/new3/img_{}.jpg'.format(i), image[y:y+h,x:x+w])
+    #cv2.imwrite('images/new4/img9_{}.jpg'.format(i), image[y:y+h,x:x+w])
     i += 1
 plt.imshow(image)
 plt.show()
